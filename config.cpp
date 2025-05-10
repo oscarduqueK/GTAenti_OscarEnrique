@@ -16,7 +16,7 @@ ConfigData loadConfig(const char* filename)
 
     std::string line;
 
-    // Línea 1: ancho;alto;
+    //linea 1
     if (std::getline(file, line)) 
     {
         std::stringstream ss(line);
@@ -27,7 +27,7 @@ ConfigData loadConfig(const char* filename)
         config.height = std::stoi(item);
     }
 
-    // Línea 2: numPeds[0];toll[0];maxMoney[0];
+    // linea 2
     if (std::getline(file, line)) 
     {
         std::stringstream ss(line);
@@ -40,7 +40,7 @@ ConfigData loadConfig(const char* filename)
         config.maxMoney[0] = std::stoi(item);
     }
 
-    // Línea 3: numPeds[1];toll[1];maxMoney[1];
+    // linea 3
     if (std::getline(file, line)) {
         std::stringstream ss(line);
         std::string item;
@@ -52,7 +52,7 @@ ConfigData loadConfig(const char* filename)
         config.maxMoney[1] = std::stoi(item);
     }
 
-    // Los valores de la tercera isla se pueden inicializar como constantes si es necesario
+    
 
     return config;
 }

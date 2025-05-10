@@ -6,22 +6,22 @@ void Motor::handleInput(Player &player)
 {
     if (GetAsyncKeyState(VK_UP)) 
     {
-        player.direction = '^'; // Mirando hacia arriba
+        player.direction = '^'; 
     } 
     else if (GetAsyncKeyState(VK_DOWN)) 
     {
-        player.direction = 'v'; // Mirando hacia abajo
+        player.direction = 'v'; 
     } 
     else if (GetAsyncKeyState(VK_LEFT)) 
     {
-        player.direction = '<'; // Mirando hacia la izquierda
+        player.direction = '<'; 
     } 
     else if (GetAsyncKeyState(VK_RIGHT)) 
     {
-        player.direction = '>'; // Mirando hacia la derecha
+        player.direction = '>'; 
     }
     
-    player.move(); // Mover a CJ según la dirección actual
+    player.move(); 
 }
 
 void Motor::delay(int milliseconds) 
