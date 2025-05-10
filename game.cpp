@@ -2,6 +2,7 @@
 #include <iostream>
 #include "motor.h"
 #include "player.h"
+#include "motor.cpp"
 
 void Game::run() 
 {
