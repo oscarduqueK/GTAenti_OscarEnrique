@@ -4,8 +4,8 @@
 
 void Map::display(Player &player)
 {
-    // Asumiendo que tienes una representación del mapa como matriz
-    // Aquí dibujaremos a CJ en la pantalla basado en su dirección y posición.
+    
+    //CJ por pantalla
     
     for (int i = 0; i < height; i++) 
     {
@@ -13,11 +13,11 @@ void Map::display(Player &player)
         {
             if (i == player.y && j == player.x)
             {
-                std::cout << player.direction; // Mostrar CJ según su dirección
+                std::cout << player.direction; 
             } 
             else 
             {
-                // Mostrar el mapa (paredes, peatones, etc.)
+              
                 std::cout << ".";
             }
         }
