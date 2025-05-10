@@ -1,5 +1,7 @@
 #include "game.h"
 #include <iostream>
+#include "motor.h"
+#include "player.h"
 
 void Game::run() 
 {
@@ -21,6 +23,7 @@ void Game::init()
 void Game::update() 
 {
     // Game logic
+    motor.handleInput(player); // Manejar la entrada y mover a CJ
 }
 
 void Game::render() 
