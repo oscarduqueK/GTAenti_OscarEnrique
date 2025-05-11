@@ -1,5 +1,6 @@
 #pragma once
 #include "player.h"
+#include "peatones.h"
 
 class Map 
 {
@@ -8,7 +9,7 @@ public:
     char** grid;
 
     void init(int w, int h); // Inicializa la matriz
-    void loadFromConfig(const char* filename); // vacía por ahora
+    void placeEntities(Player& player, peaton* peatones, int numPeatones); 
     void display(const Player& player);
     void cleanup();
 };

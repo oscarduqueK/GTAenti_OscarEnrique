@@ -2,58 +2,85 @@
 #include "player.h"
 #include <iostream>
 #include "utilidad.h"
+#include "constantes.h"
+#include "peatones.h" 
 
-void Map::init(int w, int h)
+Map::Map() : grid(nullptr), width(0), height(0) {}
+
+Map::~Map() 
+{
+    if (grid) 
+    {
+        for (int i = 0; i < height; ++i) 
+        {
+            delete[] grid[i];
+        }
+        delete[] grid;
+    }
+}
+
+void Map::init(int w, int h) 
 {
     width = w;
     height = h;
-
-    grid = new char*[height];
+    grid = new char* [height];
     for (int i = 0; i < height; ++i)
     {
         grid[i] = new char[width];
         for (int j = 0; j < width; ++j)
         {
-            grid[i][j] = ' '; //empieza como vacio
+            grid[i][j] = ' ';
         }
     }
 }
 
+void Map::placeEntities(Player& player, peaton* peatones, int numPeatones) 
+{
+    // Coloca el jugador
+    player.x = getRandomInt(0, width - 1);
+    player.y = getRandomInt(0, height - 1);
+    grid[player.y][player.x] = player.direction;  // Asignamos al jugador en la matriz
+
+    // Coloca los peatones
+    for (int i = 0; i < numPeatones; ++i) 
+    {
+        int x, y;
+        do 
+        {
+            x = getRandomInt(0, width - 1);
+            y = getRandomInt(0, height - 1);
+        } while (grid[y][x] != ' ');  // Evitar solapamientos
+
+        peatones[i].x = x;
+        peatones[i].y = y;
+        peatones[i].alive = true;
+        grid[y][x] = PEDESTRIAN;  // Asignamos a los peatones en la matriz
+    }
+}
 
 void Map::display(const Player& player)
 {
     clearScreen();
-
-    const int viewHeight = 10;
-    const int viewWidth = 20;
-
-    int top = player.y - viewHeight / 2;
-    int left = player.x - viewWidth / 2;
-
-    if (top < 0) top = 0;
-    if (left < 0) left = 0;
-    if (top + viewHeight > height) top = height - viewHeight;
-    if (left + viewWidth > width) left = width - viewWidth;
-
-    for (int i = 0; i < viewHeight; ++i)
+    for (int i = 0; i < height; ++i)
     {
-        for (int j = 0; j < viewWidth; ++j)
+        for (int j = 0; j < width; ++j)
         {
-            int y = top + i;
-            int x = left + j;
-
-            if (y == player.y && x == player.x)
-                std::cout << player.direction;
-            else
-                std::cout << grid[y][x];
+            std::cout << grid[i][j];
         }
-        std::cout << '\n';
+        std::cout << std::endl; 
     }
 }
 
-void Map::cleanup()
+void Map::cleanup() 
 {
-    for (int i = 0; i < height; ++i)
-        delete[] grid[i];
-    delete[] grid;
+    // Liberar la memoria de la matriz de forma segura
+    if (grid) 
+    {
+        for (int i = 0; i < height; ++i) 
+        {
+            delete[] grid[i];  // Liberar cada fila
+        }
+        delete[] grid;  // Liberar la matriz completa
+        grid = nullptr;  // Opcional: Establecer a nullptr para evitar acceso accidental
+    }
 }
