@@ -5,5 +5,5 @@ struct peaton
     int x, y;
     bool alive;
 
-    void move();
-};
+    void move(char** grid, int width, int height);
+}; 

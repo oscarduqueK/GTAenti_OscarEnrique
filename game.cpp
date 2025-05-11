@@ -3,12 +3,19 @@
 #include "motor.h"
 #include "player.h"
 #include "peatones.h"
-#include "motor.cpp"
 #include "utilidad.h"
+#include "map.h"
+#include "config.h"
 
 //algunas variables
-peaton* peatones;
 int numPeatones = 10; 
+
+Map map;
+Player player;
+peaton* peatones = nullptr; 
+int totalPeatones = 0;
+ConfigData config;
+Motor motor; 
 
 void Game::run() 
 {
@@ -24,18 +31,12 @@ void Game::run()
 
 void Game::init() 
 {
-    //Initializacion de codigo
-    //PArte de peatones
-    // Asignar memoria dinámica para los peatones
-    peatones = new peaton[numPeatones];
+    config = loadConfig("config.txt");
+    totalPeatones = config.numPeds[0] + config.numPeds[1];
+    peatones = new peaton[totalPeatones];
 
-    // Inicializar peatones con posiciones aleatorias
-    for (int i = 0; i < numPeatones; i++)
-    {
-        peatones[i].x = getRandomInt(0, 69); // Posición aleatoria en el mapa
-        peatones[i].y = getRandomInt(0, 49);
-        peatones[i].alive = true;
-    }
+    map.init(config.width, config.height);
+    map.placeEntities(player, peatones, totalPeatones);
 }
 
 void Game::update() 
@@ -43,18 +44,24 @@ void Game::update()
     // Game logic
     motor.handleInput(player); // Manejar la entrada y mover a CJ
 
-    // Mover a cada peaton
-    for (int i = 0; i < numPeatones; i++)
+    for (int i = 0; i < totalPeatones; ++i)
     {
-        peatones[i].move(); // Mover cada peaton
+        peatones[i].move(map.grid, map.width, map.height);
     }
 
+    for (int i = 0; i < totalPeatones; ++i)
+    {
+        if (peatones[i].alive && peatones[i].x == player.x && peatones[i].y == player.y)
+        {
+            peatones[i].alive = false;
+        }
+    }
     
 }
 
 void Game::render() 
 {
-    
+    map.display(player); 
 }
 
 void Game::cleanup() 

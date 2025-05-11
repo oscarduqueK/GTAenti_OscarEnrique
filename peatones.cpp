@@ -1,34 +1,31 @@
 #include "peatones.h"
 #include <iostream>
 #include "utilidad.h"
+#include "constantes.h"
 
-void peaton::move() 
+void peaton::move(char** grid, int width, int height)
 {
-    //logica peaton
     if (!alive) return;
 
-    // Dirección aleatoria para el movimiento
-    int direction = getRandomInt(0, 3); // 0 up, 1 down, 2 left, 3 right
+    int dx = 0, dy = 0;
+    int dir = getRandomInt(0, 3); // 0 = up, 1 = down, 2 = left, 3 = right
 
-    switch (direction)
+    switch (dir)
     {
-    case 0: //up
-        y--;
-        break;
-    case 1: // down
-        y++;
-        break;
-    case 2: // left
-        x--;
-        break;
-    case 3: // right
-        x++;
-        break;
+    case 0: dy = -1; break;
+    case 1: dy = 1; break;
+    case 2: dx = -1; break;
+    case 3: dx = 1; break;
     }
 
-    
-    if (x < 0 || x >= 70 || y < 0 || y >= 50) 
+    int newX = x + dx;
+    int newY = y + dy;
+
+    if (newX >= 0 && newX < width && newY >= 0 && newY < height && grid[newY][newX] == ' ')
     {
-        alive = false;
+        grid[y][x] = ' ';
+        x = newX;
+        y = newY;
+        grid[y][x] = PEDESTRIAN;
     }
 }
